@@ -105,6 +105,11 @@ rm -rf src/qtsingleapplication/
 %{__sed} -e 's/rcc -binary/rcc-qt5 -binary/' -i smplayer-themes-%{smplayer_themes_ver}/themes/Makefile
 %{__sed} -e 's/rcc -binary/rcc-qt5 -binary/' -i smplayer-skins-%{smplayer_skins_ver}/themes/Makefile
 
+# enable shm for wayland just like flatpak version
+# ref https://github.com/smplayer-dev/flatpak-builds/blob/435870c5e02e11cd36d8484291f6dc68974fdcd5/5.15/info.smplayer.SMPlayer.yml#L29
+# ref https://github.com/smplayer-dev/smplayer/blob/d896a836c418f53a29fac977aa2382e3217ff17b/.github/workflows/build-flatpak.yml#L42
+%{__sed} -i 's|.*DEFINES += USE_SHM|DEFINES += USE_SHM|' src/smplayer.pro
+
 %build
 pushd src
 %if 0%{?fedora}
